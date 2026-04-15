@@ -1,5 +1,12 @@
 pipeline {
     agent any
+parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+        version(name: 'APP_VERSION', defaultValue: '1.0.0', description: 'Version to deploy')
+    }
+tools {
+     gladle 'nodejs'
+    }        
 environment {
         NODE_ENV = 'production'
         CLIENT_CREDENTIALS = credentials('client-credentials')
@@ -18,6 +25,10 @@ environment {
             }
         }
         stage('Test') {
+
+            when {
+                expression { params.BRANCH_NAME == 'main' }
+            }
             steps {
                 echo 'Running tests...'
                 // Example: sh 'npm test'
