@@ -16,6 +16,8 @@ environment {
             steps {
                 echo 'Cleaning workspace and preparing for build...'
             }
+
+            script { gv=load"script.groovy" }
         }
         stage('Build') {
             steps {
